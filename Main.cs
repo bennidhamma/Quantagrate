@@ -52,7 +52,7 @@ namespace Quantagrate
 			switch (extras[0])
 			{
 			case "milestone":
-				Milestone ();
+				return Milestone ();
 				break;
 			case "tickets":
 				Tickets ();
@@ -62,7 +62,7 @@ namespace Quantagrate
 			return 0;
 		}
 		
-		static void Milestone ()
+		static int Milestone ()
 		{
 			var rc = getClient ();
 			
@@ -72,17 +72,21 @@ namespace Quantagrate
 			dynamic currentMilestone = null;
 			foreach (dynamic m in resp)
 			{
-				if (m.releaseDate != null && DateTime.Parse(m.releaseDate) < soonest)
+				if ((bool)m.released)
+					continue;
+				var d = m.releaseDate;
+				if (d != null && DateTime.Parse(d.ToString()) < soonest)
 				{
-					soonest = DateTime.Parse(m.releaseDate);
+					soonest = DateTime.Parse(d.ToString());
 					currentMilestone = m;
 				}
 			}
-
-			Console.WriteLine (resp);
-			if (currentMilestone != null)
-				Console.Write (currentMilestone.name);
 			
+			if (currentMilestone == null)
+				return 1;
+			
+			Console.WriteLine (currentMilestone.name);
+			return 0;
 		}
 
 		static void Tickets ()

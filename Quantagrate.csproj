@@ -37,24 +37,23 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System.Configuration" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
-    <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Mono.Options.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="RestClient\RestClient.csproj">
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RestClient\RestClient.csproj">
       <Project>{8123D753-76C9-4C92-9EF2-CBFAD60B9288}</Project>
       <Name>RestClient</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
 </Project>

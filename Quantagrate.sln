@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quantagrate", "Quantagrate.csproj", "{FF7E7E73-ECEC-4E6E-86F1-432D98BCB38F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestClient", "RestClient\RestClient.csproj", "{8123D753-76C9-4C92-9EF2-CBFAD60B9288}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestClient", "..\RestClient\RestClient.csproj", "{8123D753-76C9-4C92-9EF2-CBFAD60B9288}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
