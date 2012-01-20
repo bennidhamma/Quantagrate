@@ -1,0 +1,3 @@
+Quantagrate supports quantized integration, that is, integrating at the story completion level, as opposed to the commit level. The tool is tightly coupled to JIRA and git, because that's what we use.
+
+The gist is that you create a story branch for a user story. Developers, testers, designers, etc. finish tasks associated to the story, committing all work in the story branch. When all tasks are completed, and the story is marked done, quantagrate picks up the branch, merges it into a ta branch for the current milestone, which Bamboo, our CI system, then picks up and runs integration jobs against.
