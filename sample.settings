@@ -1,0 +1,13 @@
+# Where am I?
+QUANTADIR=$(dirname $(readlink -f $0))
+QUANTAGRATE=$QUANTADIR/bin/Debug/Quantagrate.exe
+
+BASEDIR=/home/ben/workspaces/fa/SuperFunConquer
+USERNAME=user
+PASSWORD=password
+SERVER='http://jira.example.com/"
+PROJECT=SFC
+REMOTE=origin
+SOURCE=master
+CHANGES="$BASEDIR/CHANGES"
+MERGE_ERROR_FLAG=$BASEDIR/merge_error_flag.lock

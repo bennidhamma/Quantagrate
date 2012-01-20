@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+	<appSettings>
+		<add key="baseServer" value="http://jira.example.com/"/> 
+		<add key="username" value="user"/>
+		<add key="password" value="password"/>
+		<add key="project" value="PRJ"/>
+	</appSettings>	
+</configuration>
