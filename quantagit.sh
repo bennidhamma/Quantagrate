@@ -27,7 +27,6 @@ annotate-output git merge $REMOTE/$SOURCE -m "Merging $REMOTE/$SOURCE into $BRAN
 if ! git branch | grep "$BRANCH"
 then
 	annotate-output git checkout -B "$BRANCH" $SOURCE >> quantagit.log 2>&1
-	annotate-output git checkout -b "$BRANCH" >> quantagit.log 2>&1
 else
 	annotate-output git checkout "$BRANCH" >> quantagit.log 2>&1
 	annotate-output git merge $REMOTE/$BRANCH -m "Merging $REMOTE/$BRANCH into $BRANCH" >> quantagit.log 2>&1
