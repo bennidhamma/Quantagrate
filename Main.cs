@@ -94,7 +94,7 @@ namespace Quantagrate
 			var rc = getClient ();
 			
 			string jql = HttpUtility.UrlEncode (string.Format 
-				("project = {0} AND resolution = Fixed AND fixVersion = {1} AND status in (Resolved, Closed)", project, milestone));
+				("project = {0} AND resolution = Fixed AND fixVersion = '{1}' AND status in (Resolved, Closed)", project, milestone));
 			
 			dynamic results = rc.Get ("search?maxResults=1000&jql=" + jql);
 			

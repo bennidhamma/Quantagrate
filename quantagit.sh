@@ -2,7 +2,7 @@
 #source /opt/mono-2.10.1/srcmono-2.10.1
 
 set -o errexit -o nounset
-# -o xtrace
+set -o xtrace
 
 # source variables.
 . $1
@@ -13,36 +13,37 @@ if [ -f "$MERGE_ERROR_FLAG" ]; then
 	exit 0
 fi
 
-QUANTAGRATE="$QUANTAGRATE -u=$USERNAME -p=$PASSWORD -s=$SERVER --project=$PROJECT -m=\"$MILESTONE\""
 
 cd $BASEDIR
-MILESTONE=`$QUANTAGRATE milestone`
-BRANCH=$MILESTONE-ta
+MILESTONE=`$QUANTAGRATE -u=$USERNAME -p=$PASSWORD -s=$SERVER --project=$PROJECT milestone`
+SAFE_MILESTONE=${MILESTONE// /_}
+BRANCH="$SAFE_MILESTONE-ta"
 
 annotate-output git fetch $REMOTE >> quantagit.log 2>&1
 
 #always merge origin source branch in.
 annotate-output git merge $REMOTE/$SOURCE -m "Merging $REMOTE/$SOURCE into $BRANCH" >> quantagit.log 2>&1
-annotate-output git merge $REMOTE/$BRANCH -m "Merging $REMOTE/$BRANCH into $BRANCH" >> quantagit.log 2>&1
 
-if ! git branch | grep $BRANCH
+if ! git branch | grep "$BRANCH"
 then
-	annotate-output git checkout -b $BRANCH >> quantagit.log 2>&1
+	annotate-output git checkout -B "$BRANCH" $SOURCE >> quantagit.log 2>&1
+	annotate-output git checkout -b "$BRANCH" >> quantagit.log 2>&1
 else
-	annotate-output git checkout $BRANCH >> quantagit.log 2>&1
+	annotate-output git checkout "$BRANCH" >> quantagit.log 2>&1
+	annotate-output git merge $REMOTE/$BRANCH -m "Merging $REMOTE/$BRANCH into $BRANCH" >> quantagit.log 2>&1
 fi
 
 echo "$MILESTONE tickets resolved" > $CHANGES
 echo "==========================" >> $CHANGES
 
-mono $QUANTAGRATE tickets |
+$QUANTAGRATE -u=$USERNAME -p=$PASSWORD -s=$SERVER --project=$PROJECT -m="$MILESTONE" tickets |
 while read ticket
 do
 	echo $ticket >> $CHANGES
 
 	if git branch -a | grep $ticket >> quantagit.log 2>&1;
 	then
-		if ! annotate-output git merge $REMOTE/$ticket -m "Merging $REMOTE/$ticket into $BRANCH" >> quantagit.log 2>&1
+		if ! annotate-output git merge $REMOTE/$ticket -m "Merging $REMOTE/$ticket into \"$BRANCH\"" >> quantagit.log 2>&1
 		then
 			echo "ERROR MERGING $REMOTE/$ticket"
 			touch merge_error_flag
@@ -50,7 +51,7 @@ do
 		fi
 	elif git branch -a | grep "${ticket,,}";
 	then
-		if ! annotate-output git merge "$REMOTE/${ticket,,}" -m "Merging $REMOTE/$ticket into $BRANCH" >> quantagit.log 2>&1
+		if ! annotate-output git merge "$REMOTE/${ticket,,}" -m "Merging $REMOTE/$ticket into \"$BRANCH\"" >> quantagit.log 2>&1
 		then
 			echo "ERROR MERGING $REMOTE/${ticket,,}"
 			touch merge_error_flag
@@ -65,6 +66,6 @@ then
 	git commit -m "quantagit merged branches"
 fi
 
-annotate-output git push $REMOTE $BRANCH >> quantagit.log 2>&1
+annotate-output git push $REMOTE "$BRANCH" >> quantagit.log 2>&1
 
 exit 0
