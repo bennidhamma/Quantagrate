@@ -40,7 +40,7 @@ while read ticket
 do
 	echo $ticket >> $CHANGES
 
-	if git branch -a | grep $ticket >> quantagit.log 2>&1;
+	if git branch -a | grep -E "$ticket$" >> quantagit.log 2>&1;
 	then
 		if ! annotate-output git merge $REMOTE/$ticket -m "Merging $REMOTE/$ticket into \"$BRANCH\"" >> quantagit.log 2>&1
 		then
@@ -48,7 +48,7 @@ do
 			touch merge_error_flag
 			exit 1
 		fi
-	elif git branch -a | grep "${ticket,,}";
+	elif git branch -a | grep -E "${ticket,,}$";
 	then
 		if ! annotate-output git merge "$REMOTE/${ticket,,}" -m "Merging $REMOTE/$ticket into \"$BRANCH\"" >> quantagit.log 2>&1
 		then
